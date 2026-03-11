@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>08 · Perfil — Mengíbar AR</title>
+  <link rel="stylesheet" href="wireframe-shared.css">
+  <style>
+    .profile-hero {
+      background: linear-gradient(135deg, #8B6914, #C4973B);
+      padding: 20px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+    .avatar {
+      width: 64px; height: 64px;
+      background: rgba(255,255,255,0.25);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      flex-shrink: 0;
+      border: 3px solid rgba(255,255,255,0.5);
+    }
+    .profile-info { flex: 1; }
+    .profile-name  { font-size: 18px; font-weight: 800; color: #fff; }
+    .profile-email { font-size: 12px; color: rgba(255,255,255,0.75); margin-top: 2px; }
+    .profile-role  { margin-top: 5px; }
+    .profile-edit-btn {
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.4);
+      color: #fff;
+      border-radius: 20px;
+      padding: 7px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    /* Stats */
+    .stats-row {
+      background: #fff;
+      border-radius: var(--radius-md);
+      display: flex;
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+    .stat-item {
+      flex: 1;
+      padding: 14px 8px;
+      text-align: center;
+      border-right: 1px solid var(--color-divider);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-value { font-size: 22px; font-weight: 800; color: var(--color-ocre-dark); }
+    .stat-label { font-size: 11px; color: var(--color-gray); margin-top: 3px; }
+    /* Insignias (RF-34) */
+    .badges-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .badge-item {
+      background: #fff;
+      border-radius: var(--radius-md);
+      padding: 10px 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      box-shadow: var(--shadow-sm);
+      text-align: center;
+    }
+    .badge-item.locked { opacity: 0.4; filter: grayscale(1); }
+    .badge-emoji { font-size: 28px; }
+    .badge-name { font-size: 10px; color: var(--color-dark); font-weight: 700; }
+    /* Historial */
+    .history-item {
+      background: #fff;
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+    .history-icon { font-size: 24px; }
+    .history-info { flex: 1; }
+    .history-name { font-size: 14px; font-weight: 700; color: var(--color-dark); }
+    .history-meta { font-size: 12px; color: var(--color-gray); margin-top: 2px; }
+    /* Docente */
+    .teacher-banner {
+      background: var(--color-blue-bg);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .teacher-icon { font-size: 28px; }
+    .teacher-info { flex: 1; }
+    .teacher-title { font-size: 14px; font-weight: 700; color: var(--color-blue); }
+    .teacher-desc  { font-size: 12px; color: var(--color-blue); opacity: 0.8; margin-top: 2px; }
+    .teacher-btn {
+      background: var(--color-blue);
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    /* Guest banner */
+    .guest-banner {
+      background: #FFF8EE;
+      border: 1.5px dashed var(--color-ocre);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      text-align: center;
+    }
+    .guest-banner-title { font-size: 15px; font-weight: 700; color: var(--color-dark); margin-bottom: 6px; }
+    .guest-banner-desc  { font-size: 13px; color: var(--color-gray); margin-bottom: 12px; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <div class="page-header">
+    <a href="index.html">← Índice</a>
+    <span class="page-title">08 — Perfil de Usuario</span>
+    <span class="screen-num">8 / 9</span>
+  </div>
+
+  <div class="device">
+    <div class="device-notch"></div>
+    <div class="screen">
+      <div class="status-bar"><span>9:41</span><span>📶 🔋</span></div>
+
+      <!-- Hero perfil -->
+      <div class="profile-hero">
+        <div class="avatar">👤</div>
+        <div class="profile-info">
+          <div class="profile-name">María García</div>
+          <div class="profile-email">m.garcia@ejemplo.com</div>
+          <div class="profile-role"><span class="badge badge-blue">👩‍🏫 Docente</span></div>
+        </div>
+        <button class="profile-edit-btn">✏️ Editar</button>
+      </div>
+
+      <div class="content" style="gap:12px;">
+
+        <!-- Estadísticas -->
+        <div class="stats-row">
+          <div class="stat-item">
+            <div class="stat-value">7</div>
+            <div class="stat-label">Visitas</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">23</div>
+            <div class="stat-label">POI vistos</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">4</div>
+            <div class="stat-label">Rutas hechas</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">9</div>
+            <div class="stat-label">Insignias</div>
+          </div>
+        </div>
+
+        <!-- Perfil docente (RF-03) -->
+        <div class="teacher-banner">
+          <div class="teacher-icon">👩‍🏫</div>
+          <div class="teacher-info">
+            <div class="teacher-title">Perfil Docente — RF-03</div>
+            <div class="teacher-desc">2 grupos activos · 28 estudiantes</div>
+          </div>
+          <button class="teacher-btn">Gestionar</button>
+        </div>
+
+        <!-- Insignias (RF-34) -->
+        <div style="font-size:14px; font-weight:700; color:var(--color-dark);">Insignias</div>
+        <div class="badges-grid">
+          <div class="badge-item">
+            <div class="badge-emoji">🏛️</div>
+            <div class="badge-name">Explorador</div>
+          </div>
+          <div class="badge-item">
+            <div class="badge-emoji">🏺</div>
+            <div class="badge-name">Arqueólogo</div>
+          </div>
+          <div class="badge-item">
+            <div class="badge-emoji">🎓</div>
+            <div class="badge-name">Historiador</div>
+          </div>
+          <div class="badge-item locked">
+            <div class="badge-emoji">⭐</div>
+            <div class="badge-name">Completo</div>
+          </div>
+        </div>
+
+        <!-- Historial de visitas (RF-02) -->
+        <div style="font-size:14px; font-weight:700; color:var(--color-dark);">Últimas visitas</div>
+        <div class="history-item">
+          <div class="history-icon">🚶</div>
+          <div class="history-info">
+            <div class="history-name">Ruta Romana Esencial</div>
+            <div class="history-meta">Hace 2 días · 58 min · 5/5 hitos ✅</div>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-icon">📌</div>
+          <div class="history-info">
+            <div class="history-name">Necrópolis Ibérica</div>
+            <div class="history-meta">Hace 5 días · Audio + 3D</div>
+          </div>
+        </div>
+
+        <!-- Botón cerrar sesión -->
+        <button class="btn-secondary" style="color:#C62828; border-color:#C62828;">Cerrar sesión</button>
+
+        <div class="wf-note">RF-02: progreso y favoritos · RF-03: perfil docente con grupos · RF-34: insignias · RF-27: sincronización</div>
+      </div>
+
+      <div class="tab-bar">
+        <div class="tab-item"><div class="tab-icon">🏠</div>Inicio</div>
+        <div class="tab-item"><div class="tab-icon">🗺️</div>Mapa</div>
+        <div class="tab-item"><div class="tab-icon">📷</div>RA</div>
+        <div class="tab-item"><div class="tab-icon">🚶</div>Rutas</div>
+        <div class="tab-item active"><div class="tab-icon">👤</div>Perfil</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="description">
+    <h3>Pantalla 08 — Perfil de Usuario</h3>
+    <ul>
+      <li><strong>RF-02:</strong> Historial de visitas, favoritos guardados y progreso de recorridos.</li>
+      <li><strong>RF-03:</strong> Banner de gestión de grupos para perfil docente.</li>
+      <li><strong>RF-34:</strong> Insignias digitales obtenidas al completar recorridos y actividades.</li>
+      <li><strong>RF-27:</strong> El progreso se sincroniza con la cuenta del servidor cuando hay conexión.</li>
+      <li>Para el modo invitado (RF-01), esta pantalla muestra un banner invitando al registro con lista de beneficios.</li>
+      <li>Estadísticas de actividad: visitas, POI visitados, rutas completadas, insignias.</li>
+    </ul>
+  </div>
+</body>
+</html>

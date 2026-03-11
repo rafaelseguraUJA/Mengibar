@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>04 · Mapa — Mengíbar AR</title>
+  <link rel="stylesheet" href="wireframe-shared.css">
+  <style>
+    .map-area {
+      flex: 1;
+      background: #D1EAD0;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Carretera principal */
+    .map-area::before {
+      content: '';
+      position: absolute;
+      top: 40%; left: 0; right: 0;
+      height: 18px;
+      background: #C8B89A;
+      transform: rotate(-8deg) scaleX(1.4);
+      transform-origin: center;
+    }
+    /* Carretera secundaria */
+    .map-area::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      left: 58%;
+      width: 14px;
+      background: #C8B89A;
+    }
+    .map-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.25) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.25) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    /* Zona yacimiento */
+    .map-zone {
+      position: absolute;
+      top: 25%; left: 20%;
+      width: 55%; height: 45%;
+      border: 2px dashed #8B6914;
+      border-radius: 50%;
+      background: rgba(196,151,59,0.08);
+    }
+    .map-zone-label {
+      position: absolute;
+      top: -20px; left: 50%;
+      transform: translateX(-50%);
+      background: #8B6914;
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 10px;
+      white-space: nowrap;
+    }
+    /* Marcadores POI */
+    .poi-marker {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      cursor: pointer;
+    }
+    .poi-marker .icon {
+      transform: rotate(45deg);
+      font-size: 15px;
+    }
+    .poi-marker.selected {
+      width: 40px; height: 40px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+    .poi-marker.arquitectura { background: #C4973B; }
+    .poi-marker.hallazgo    { background: #8B4513; }
+    .poi-marker.personaje   { background: #1565C0; }
+    /* Usuario */
+    .user-dot {
+      position: absolute;
+      width: 16px; height: 16px;
+      background: #1565C0;
+      border: 3px solid #fff;
+      border-radius: 50%;
+      box-shadow: 0 0 0 6px rgba(21,101,192,0.2);
+    }
+    /* Brújula */
+    .compass {
+      position: absolute;
+      top: 12px; right: 12px;
+      width: 40px; height: 40px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: var(--shadow-sm);
+    }
+    /* GPS precision */
+    .gps-badge {
+      position: absolute;
+      top: 12px; left: 12px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 20px;
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--color-green);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    /* Popup POI */
+    .poi-popup {
+      position: absolute;
+      bottom: 12px; left: 12px; right: 12px;
+      background: #fff;
+      border-radius: var(--radius-md);
+      padding: 12px;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .poi-popup-img {
+      width: 52px; height: 52px;
+      background: var(--color-light);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+    .poi-popup-info { flex: 1; }
+    .poi-popup-name { font-size: 14px; font-weight: 700; }
+    .poi-popup-cat { font-size: 11px; color: var(--color-gray); }
+    .poi-popup-dist { font-size: 12px; color: var(--color-ocre-dark); font-weight: 600; margin-top: 3px; }
+    .poi-popup-btn {
+      background: var(--color-ocre);
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    /* Filtros */
+    .filter-bar {
+      background: #fff;
+      padding: 8px 12px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      flex-shrink: 0;
+      border-bottom: 1px solid var(--color-divider);
+    }
+    .filter-bar::-webkit-scrollbar { display: none; }
+    /* Botón flotante RA */
+    .fab-ra {
+      position: absolute;
+      bottom: 88px;
+      right: 16px;
+      width: 52px; height: 52px;
+      background: var(--color-ocre);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 4px 16px rgba(196,151,59,0.5);
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-header">
+    <a href="index.html">← Índice</a>
+    <span class="page-title">04 — Mapa del Yacimiento</span>
+    <span class="screen-num">4 / 9</span>
+  </div>
+
+  <div class="device">
+    <div class="device-notch"></div>
+    <div class="screen">
+      <div class="status-bar"><span>9:41</span><span>📶 GPS 🔋</span></div>
+      <div class="app-bar">
+        <span class="app-bar-title">🗺️ Mapa del Yacimiento</span>
+        <div class="app-bar-icon">🔍</div>
+        <div class="app-bar-icon">⋮</div>
+      </div>
+
+      <!-- Filtros de categoría (RF-29) -->
+      <div class="filter-bar">
+        <div class="chip active">Todos</div>
+        <div class="chip">🏛️ Arquitectura</div>
+        <div class="chip">🏺 Hallazgos</div>
+        <div class="chip">👤 Personajes</div>
+        <div class="chip">🗺️ Mapas hist.</div>
+      </div>
+
+      <!-- Mapa -->
+      <div class="map-area" style="flex:1; position:relative;">
+        <div class="map-grid"></div>
+
+        <!-- Zona del yacimiento -->
+        <div class="map-zone">
+          <div class="map-zone-label">Yacimiento Iliturgi</div>
+        </div>
+
+        <!-- Marcadores POI -->
+        <div class="poi-marker arquitectura selected" style="top:35%;left:38%;">
+          <span class="icon">🏛️</span>
+        </div>
+        <div class="poi-marker hallazgo" style="top:45%;left:55%;">
+          <span class="icon">🏺</span>
+        </div>
+        <div class="poi-marker arquitectura" style="top:28%;left:60%;">
+          <span class="icon">🧱</span>
+        </div>
+        <div class="poi-marker personaje" style="top:55%;left:30%;">
+          <span class="icon">👤</span>
+        </div>
+        <div class="poi-marker hallazgo" style="top:62%;left:48%;">
+          <span class="icon">⚔️</span>
+        </div>
+
+        <!-- Usuario (GPS) -->
+        <div class="user-dot" style="top:40%;left:42%;"></div>
+
+        <!-- GPS badge -->
+        <div class="gps-badge">✅ GPS ±3 m</div>
+
+        <!-- Brújula -->
+        <div class="compass">🧭</div>
+
+        <!-- Popup POI seleccionado -->
+        <div class="poi-popup">
+          <div class="poi-popup-img">🏛️</div>
+          <div class="poi-popup-info">
+            <div class="poi-popup-name">Foro Romano</div>
+            <div class="poi-popup-cat">🏺 Arquitectura · Período Romano</div>
+            <div class="poi-popup-dist">📍 18 m · 3D + Audio</div>
+          </div>
+          <button class="poi-popup-btn">Ver →</button>
+        </div>
+
+        <!-- FAB: Vista RA -->
+        <div class="fab-ra">📷</div>
+      </div>
+
+      <div class="tab-bar">
+        <div class="tab-item"><div class="tab-icon">🏠</div>Inicio</div>
+        <div class="tab-item active"><div class="tab-icon">🗺️</div>Mapa</div>
+        <div class="tab-item"><div class="tab-icon">📷</div>RA</div>
+        <div class="tab-item"><div class="tab-icon">🚶</div>Rutas</div>
+        <div class="tab-item"><div class="tab-icon">👤</div>Perfil</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="description">
+    <h3>Pantalla 04 — Mapa del Yacimiento</h3>
+    <ul>
+      <li><strong>RF-11:</strong> Posición GPS del usuario en tiempo real (punto azul).</li>
+      <li><strong>RF-15:</strong> POI resaltados automáticamente en el mapa cuando el usuario está a menos de 20 m.</li>
+      <li><strong>RF-17:</strong> Botón de brújula-RA (esquina superior derecha) para dirección y distancia a POIs.</li>
+      <li><strong>RF-29:</strong> Barra de filtros por categoría temática (arquitectura, hallazgos, personajes, etc.).</li>
+      <li><strong>RF-16:</strong> Al seleccionar un POI en el popup aparece la opción de ruta a pie.</li>
+      <li><strong>RF-10:</strong> En modo sin GPS preciso, aparece opción de activar RA por QR/marcador.</li>
+      <li>Botón flotante (FAB) para acceder directamente a la Vista RA desde el mapa.</li>
+    </ul>
+  </div>
+</body>
+</html>

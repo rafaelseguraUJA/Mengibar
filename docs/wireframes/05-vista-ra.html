@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>05 · Vista RA — Mengíbar AR</title>
+  <link rel="stylesheet" href="wireframe-shared.css">
+  <style>
+    .camera-view {
+      flex: 1;
+      background: linear-gradient(180deg, #2C3E50 0%, #4A6741 40%, #6B8A5E 70%, #8FAF7E 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    /* Simulación de terreno/suelo */
+    .camera-view::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 35%;
+      background: linear-gradient(180deg, transparent, rgba(101,134,82,0.7));
+    }
+    /* Cielo */
+    .sky-gradient {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 50%;
+      background: linear-gradient(180deg, #2C3E50 0%, #446580 100%);
+      opacity: 0.8;
+    }
+    /* Modelo 3D simulado */
+    .model-3d {
+      position: absolute;
+      bottom: 22%;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .model-3d-shape {
+      width: 120px;
+      height: 90px;
+      background: rgba(196,151,59,0.85);
+      border-radius: 8px 8px 0 0;
+      border: 2px solid rgba(255,255,255,0.5);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .model-3d-shape::before {
+      content: '';
+      position: absolute;
+      top: -20px; left: 10px; right: 10px;
+      height: 22px;
+      background: rgba(196,151,59,0.85);
+      clip-path: polygon(0 100%, 50% 0, 100% 100%);
+    }
+    .model-3d-label {
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+    /* Etiquetas flotantes de partes */
+    .ar-tag {
+      position: absolute;
+      background: rgba(255,255,255,0.9);
+      color: var(--color-dark);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 12px;
+      white-space: nowrap;
+      box-shadow: var(--shadow-sm);
+    }
+    .ar-tag::after {
+      content: '';
+      position: absolute;
+      width: 30px;
+      height: 1px;
+      background: rgba(255,255,255,0.8);
+    }
+    /* Controles RA (overlay top) */
+    .ar-top-bar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.5), transparent);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 10;
+    }
+    .ar-btn {
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      border-radius: 20px;
+      padding: 7px 13px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+    .ar-btn.active { background: rgba(196,151,59,0.8); border-color: rgba(196,151,59,0.9); }
+    .ar-spacer { flex: 1; }
+    /* Timeline de épocas */
+    .era-selector {
+      position: absolute;
+      bottom: 140px;
+      left: 12px; right: 12px;
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(6px);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      z-index: 10;
+    }
+    .era-label {
+      font-size: 10px;
+      color: rgba(255,255,255,0.6);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .era-track {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      position: relative;
+    }
+    .era-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      flex-shrink: 0;
+      cursor: pointer;
+      z-index: 1;
+    }
+    .era-dot.active { background: var(--color-ocre); width: 14px; height: 14px; }
+    .era-line {
+      flex: 1;
+      height: 2px;
+      background: rgba(255,255,255,0.2);
+    }
+    .era-names {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5px;
+    }
+    .era-name {
+      font-size: 9px;
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      flex: 1;
+    }
+    .era-name.active { color: var(--color-ocre); font-weight: 700; }
+    /* Controles inferiores */
+    .ar-bottom-bar {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(0deg, rgba(0,0,0,0.6), transparent);
+      padding: 12px 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 10;
+      gap: 10px;
+    }
+    .ar-action-btn {
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.35);
+      color: #fff;
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .ar-action-btn.primary {
+      background: var(--color-ocre);
+      border-color: transparent;
+      width: 60px; height: 60px;
+      font-size: 28px;
+      box-shadow: 0 4px 16px rgba(196,151,59,0.5);
+    }
+    /* Alternativa sin RA (ACC-06) */
+    .no-ar-btn {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      border-radius: 20px;
+      padding: 6px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      z-index: 11;
+    }
+    /* Indicador QR */
+    .qr-hint {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      border: 3px solid rgba(255,255,255,0.6);
+      border-radius: 12px;
+      width: 160px; height: 160px;
+      display: none; /* se muestra cuando GPS no preciso */
+    }
+    /* Crosshair brújula */
+    .compass-overlay {
+      position: absolute;
+      top: 50px; right: 14px;
+      background: rgba(0,0,0,0.5);
+      border-radius: 50%;
+      width: 44px; height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-header">
+    <a href="index.html">← Índice</a>
+    <span class="page-title">05 — Vista de Realidad Aumentada (RA)</span>
+    <span class="screen-num">5 / 9</span>
+  </div>
+
+  <div class="device">
+    <div class="device-notch"></div>
+    <div class="screen">
+      <div class="status-bar" style="background:rgba(0,0,0,0.5);"><span>9:41</span><span>📶 GPS 🔋</span></div>
+
+      <!-- Vista de cámara con RA -->
+      <div class="camera-view">
+        <div class="sky-gradient"></div>
+
+        <!-- Controles superiores -->
+        <div class="ar-top-bar">
+          <div class="ar-btn">← Volver</div>
+          <div class="ar-spacer"></div>
+          <div class="ar-btn active">📷 RA ON</div>
+          <div class="ar-btn">📖 Sin RA</div>
+        </div>
+
+        <!-- Brújula -->
+        <div class="compass-overlay">🧭</div>
+
+        <!-- Modelo 3D superpuesto (RF-05, RF-06) -->
+        <div class="model-3d">
+          <!-- Etiquetas interactivas de partes del modelo (RF-06) -->
+          <div class="ar-tag" style="top:-10px; left:-80px;">Columna dórica</div>
+          <div class="ar-tag" style="top:20px; right:-70px;">Arquitrabe</div>
+          <div class="model-3d-shape">
+            <span style="font-size:40px;">🏛️</span>
+          </div>
+          <div class="model-3d-label">Foro Romano · Reconstrucción s.I d.C.</div>
+        </div>
+
+        <!-- Selector de época histórica (RF-07) -->
+        <div class="era-selector">
+          <div class="era-label">⏳ Época histórica — RF-07</div>
+          <div class="era-track">
+            <div class="era-dot"></div>
+            <div class="era-line"></div>
+            <div class="era-dot"></div>
+            <div class="era-line"></div>
+            <div class="era-dot active"></div>
+            <div class="era-line"></div>
+            <div class="era-dot"></div>
+            <div class="era-line"></div>
+            <div class="era-dot"></div>
+          </div>
+          <div class="era-names">
+            <div class="era-name">Ibérico</div>
+            <div class="era-name">Pún.</div>
+            <div class="era-name active">Romano</div>
+            <div class="era-name">Tard.</div>
+            <div class="era-name">Med.</div>
+          </div>
+        </div>
+
+        <!-- Controles inferiores -->
+        <div class="ar-bottom-bar">
+          <div class="ar-action-btn">🔊</div>
+          <div class="ar-action-btn">📸</div>
+          <div class="ar-action-btn primary">ℹ️</div>
+          <div class="ar-action-btn">↩️</div>
+          <div class="ar-action-btn">📌</div>
+        </div>
+      </div>
+
+      <div class="tab-bar">
+        <div class="tab-item"><div class="tab-icon">🏠</div>Inicio</div>
+        <div class="tab-item"><div class="tab-icon">🗺️</div>Mapa</div>
+        <div class="tab-item active"><div class="tab-icon">📷</div>RA</div>
+        <div class="tab-item"><div class="tab-icon">🚶</div>Rutas</div>
+        <div class="tab-item"><div class="tab-icon">👤</div>Perfil</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="description">
+    <h3>Pantalla 05 — Vista de Realidad Aumentada</h3>
+    <ul>
+      <li><strong>RF-05:</strong> Modelo 3D superpuesto sobre la cámara en tiempo real.</li>
+      <li><strong>RF-06:</strong> Etiquetas interactivas de partes del modelo (rotación, zoom, selección).</li>
+      <li><strong>RF-07:</strong> Selector de época histórica (línea de tiempo inferior).</li>
+      <li><strong>RF-08:</strong> Botón "RA ON/OFF" para activar/desactivar la capa sin interrumpir navegación.</li>
+      <li><strong>RF-09:</strong> Ajuste automático de iluminación y orientación para renderizado realista.</li>
+      <li><strong>RF-17:</strong> Brújula en esquina superior derecha con dirección a POIs cercanos.</li>
+      <li><strong>ACC-06:</strong> Botón "Sin RA" que cambia a vista texto+mapa estático para usuarios sin acceso a cámara.</li>
+      <li>Controles de acciones: audio narrativo, captura pantalla, info del POI, deshacer, favorito.</li>
+    </ul>
+  </div>
+</body>
+</html>

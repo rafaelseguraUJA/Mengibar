@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>02 · Acceso — Mengíbar AR</title>
+  <link rel="stylesheet" href="wireframe-shared.css">
+  <style>
+    .tabs {
+      display: flex;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1.5px solid var(--color-divider);
+    }
+    .tab {
+      flex: 1;
+      padding: 11px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--color-gray);
+    }
+    .tab.active {
+      background: var(--color-ocre);
+      color: #fff;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .forgot-link {
+      text-align: right;
+      font-size: 13px;
+      color: var(--color-blue);
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    .guest-box {
+      background: #FFF8EE;
+      border: 1.5px dashed var(--color-ocre);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .guest-icon { font-size: 36px; }
+    .guest-title { font-size: 16px; font-weight: 700; color: var(--color-dark); }
+    .guest-desc { font-size: 13px; color: var(--color-gray); line-height: 1.5; }
+    .privacy-check {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--color-gray);
+      line-height: 1.5;
+    }
+    .checkbox {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--color-ocre);
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+    }
+    .checkbox.checked { background: var(--color-ocre); color: #fff; font-size: 13px; }
+    .role-selector {
+      display: flex;
+      gap: 10px;
+    }
+    .role-option {
+      flex: 1;
+      background: #fff;
+      border: 2px solid var(--color-divider);
+      border-radius: var(--radius-md);
+      padding: 12px 8px;
+      text-align: center;
+      cursor: pointer;
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .role-option.selected { border-color: var(--color-ocre); background: #FFF8EE; }
+    .role-icon { font-size: 24px; }
+    .role-label { font-weight: 700; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <div class="page-header">
+    <a href="index.html">← Índice</a>
+    <span class="page-title">02 — Acceso (Login / Registro / Invitado)</span>
+    <span class="screen-num">2 / 9</span>
+  </div>
+
+  <div class="device">
+    <div class="device-notch"></div>
+    <div class="screen">
+      <div class="status-bar"><span>9:41</span><span>📶 🔋</span></div>
+      <div class="app-bar">
+        <div class="app-bar-icon">←</div>
+        <span class="app-bar-title">Acceso</span>
+        <div class="app-bar-icon">🌐</div>
+      </div>
+
+      <div class="content">
+        <!-- Selector de modo: Login / Registro -->
+        <div class="tabs">
+          <div class="tab active">Iniciar sesión</div>
+          <div class="tab">Registrarse</div>
+        </div>
+
+        <!-- ── Formulario Login ── -->
+        <div class="form-group">
+          <label class="input-label">Correo electrónico</label>
+          <input class="input-field" type="email" placeholder="usuario@ejemplo.com">
+        </div>
+        <div class="form-group">
+          <label class="input-label">Contraseña</label>
+          <input class="input-field" type="password" placeholder="••••••••">
+          <div class="forgot-link">¿Olvidaste tu contraseña?</div>
+        </div>
+
+        <button class="btn-primary">🔑 Iniciar sesión</button>
+
+        <!-- ── Selección de perfil (solo en Registro) ── -->
+        <div class="divider-text">Tipo de perfil</div>
+        <div class="role-selector">
+          <div class="role-option selected">
+            <div class="role-icon">🧑</div>
+            <div class="role-label">Visitante</div>
+            <div style="font-size:11px; color: var(--color-gray);">General</div>
+          </div>
+          <div class="role-option">
+            <div class="role-icon">👩‍🏫</div>
+            <div class="role-label">Docente</div>
+            <div style="font-size:11px; color: var(--color-gray);">Grupos RF-03</div>
+          </div>
+        </div>
+
+        <!-- ── Privacidad ── -->
+        <div class="privacy-check">
+          <div class="checkbox checked">✓</div>
+          <span>Acepto la <u>Política de Privacidad</u> y el tratamiento de mis datos conforme al RGPD y LOPDGDD (RF-19, CA-09)</span>
+        </div>
+
+        <div class="divider-text">o</div>
+
+        <!-- ── Acceso invitado ── -->
+        <div class="guest-box">
+          <div class="guest-icon">👤</div>
+          <div class="guest-title">Explorar como invitado</div>
+          <div class="guest-desc">Accede sin registrarte. No se guardará tu progreso ni favoritos.</div>
+          <button class="btn-secondary">Continuar sin cuenta →</button>
+        </div>
+
+        <div class="wf-note">RF-01: acceso invitado sin registro · RF-02: registro opcional · RF-03: perfil docente · CA-09: RGPD</div>
+      </div>
+
+      <div class="tab-bar">
+        <div class="tab-item"><div class="tab-icon">🏠</div>Inicio</div>
+        <div class="tab-item"><div class="tab-icon">🗺️</div>Mapa</div>
+        <div class="tab-item"><div class="tab-icon">📷</div>RA</div>
+        <div class="tab-item"><div class="tab-icon">🚶</div>Rutas</div>
+        <div class="tab-item"><div class="tab-icon">👤</div>Perfil</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="description">
+    <h3>Pantalla 02 — Acceso</h3>
+    <ul>
+      <li><strong>RF-01:</strong> Botón "Continuar sin cuenta" para modo invitado (sin registro).</li>
+      <li><strong>RF-02:</strong> Pestañas "Iniciar sesión" / "Registrarse" para usuarios con cuenta.</li>
+      <li><strong>RF-03:</strong> Selector de perfil docente en el formulario de registro.</li>
+      <li><strong>CA-09 / RF-19:</strong> Checkbox de consentimiento RGPD obligatorio antes del registro.</li>
+      <li><strong>RF-30:</strong> Botón de idioma en la App Bar (globo) para cambiar ES/EN.</li>
+      <li><strong>ACC-07:</strong> Todos los controles con área táctil ≥ 44×44 px lógicos.</li>
+    </ul>
+  </div>
+</body>
+</html>

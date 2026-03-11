@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>01 · Bienvenida — Mengíbar AR</title>
+  <link rel="stylesheet" href="wireframe-shared.css">
+  <style>
+    .splash-screen {
+      flex: 1;
+      background: linear-gradient(175deg, #8B6914 0%, #C4973B 45%, #D4A84B 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 32px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .splash-screen::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .splash-logo {
+      font-size: 72px;
+      line-height: 1;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+    }
+    .splash-title {
+      font-size: 32px;
+      font-weight: 900;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      letter-spacing: -0.5px;
+    }
+    .splash-subtitle {
+      font-size: 14px;
+      color: rgba(255,255,255,0.85);
+      text-align: center;
+      line-height: 1.5;
+      max-width: 260px;
+    }
+    .splash-tagline {
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 600;
+    }
+    .splash-btn-group {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .btn-splash-primary {
+      background: #fff;
+      color: #8B6914;
+      border: none;
+      border-radius: 28px;
+      padding: 16px 24px;
+      font-size: 17px;
+      font-weight: 800;
+      width: 100%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 54px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+    .btn-splash-secondary {
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      border: 2px solid rgba(255,255,255,0.5);
+      border-radius: 28px;
+      padding: 14px 24px;
+      font-size: 16px;
+      font-weight: 700;
+      width: 100%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 50px;
+    }
+    .btn-splash-ghost {
+      background: transparent;
+      color: rgba(255,255,255,0.75);
+      border: none;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 8px;
+      text-align: center;
+    }
+    .splash-version {
+      position: absolute;
+      bottom: 16px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+    }
+    .splash-status-bar {
+      background: rgba(0,0,0,0.2);
+      color: rgba(255,255,255,0.9);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 6px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-header">
+    <a href="index.html">← Índice</a>
+    <span class="page-title">01 — Pantalla de Bienvenida (Splash)</span>
+    <span class="screen-num">1 / 9</span>
+  </div>
+
+  <div class="device">
+    <div class="device-notch"></div>
+    <div class="screen" style="border-radius:34px; overflow:hidden;">
+      <div class="splash-status-bar">
+        <span>9:41</span>
+        <span>📶 🔋</span>
+      </div>
+      <div class="splash-screen">
+        <div class="splash-tagline">VTIliturgi · Universidad de Jaén</div>
+        <div class="splash-logo">🏛️</div>
+        <div class="splash-title">Mengíbar AR</div>
+        <div class="splash-subtitle">Descubre el patrimonio arqueológico de Mengíbar a través de la Realidad Aumentada</div>
+
+        <div class="splash-btn-group">
+          <button class="btn-splash-primary">🔑 Iniciar Sesión</button>
+          <button class="btn-splash-secondary">📝 Crear cuenta</button>
+          <button class="btn-splash-ghost">Continuar como invitado →</button>
+        </div>
+
+        <div class="splash-version">v1.0.0 · ES / EN</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="description">
+    <h3>Pantalla 01 — Bienvenida (Splash)</h3>
+    <ul>
+      <li><strong>RF-01:</strong> El botón "Continuar como invitado" da acceso sin registro.</li>
+      <li><strong>RF-02:</strong> Opciones de iniciar sesión y crear cuenta para usuarios registrados.</li>
+      <li>La pantalla se muestra siempre al abrir la app (no hay auto-login para invitados).</li>
+      <li>Idioma inicial según el locale del dispositivo (ES/EN).</li>
+      <li><strong>ACC-05:</strong> Alto contraste entre el fondo y el texto blanco (ratio &gt; 4.5:1).</li>
+    </ul>
+  </div>
+</body>
+</html>
