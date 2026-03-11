@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wireframes — Mengíbar AR</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #F5F0E8;
+      color: #2D2D2D;
+      padding: 40px 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #2D2D2D;
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 40px;
+      font-size: 15px;
+    }
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      justify-content: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      width: 200px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+      text-decoration: none;
+      color: #2D2D2D;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+    .card-thumb {
+      background: linear-gradient(135deg, #C4973B 0%, #8B6914 100%);
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+    }
+    .card-body {
+      padding: 14px;
+    }
+    .card-num {
+      font-size: 11px;
+      color: #888;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-top: 4px;
+      line-height: 1.3;
+    }
+    .badge {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .badge-auth { background: #E3F2FD; color: #1565C0; }
+    .badge-nav  { background: #FFF3E0; color: #E65100; }
+    .badge-core { background: #E8F5E9; color: #2E7D32; }
+    .badge-user { background: #F3E5F5; color: #6A1B9A; }
+    .legend {
+      margin-top: 48px;
+      text-align: center;
+    }
+    .legend h2 { font-size: 16px; margin-bottom: 12px; color: #555; }
+    .legend-items { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    footer {
+      text-align: center;
+      margin-top: 48px;
+      font-size: 13px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <h1>🏛️ Mengíbar AR — Wireframes</h1>
+  <p class="subtitle">Fase 2: Arquitectura y Diseño UX/UI · Esquemas básicos de interfaz</p>
+
+  <div class="grid">
+    <a class="card" href="01-bienvenida.html">
+      <div class="card-thumb">🌅</div>
+      <div class="card-body">
+        <div class="card-num">Pantalla 01</div>
+        <div class="card-title">Bienvenida (Splash)</div>
+        <span class="badge badge-auth">Acceso</span>
+      </div>
+    </a>
+
+    <a class="card" href="02-acceso.html">
+      <div class="card-thumb">🔑</div>
+      <div class="card-body">
+        <div class="card-num">Pantalla 02</div>
+        <div class="card-title">Acceso · Login / Registro / Invitado</div>
+        <span class="badge badge-auth">Acceso</span>
+      </div>
+    </a>
+
+    <a class="card" href="03-home.html">
+      <div class="card-thumb">🏠</div>
+      <div class="card-body">
+        <div class="card-num">Pantalla 03</div>
+        <div class="card-title">Pantalla Principal (Home)</div>
+        <span class="badge badge-nav">Navegación</span>
+      </div>
+    </a>
+
+    <a class="card" href="04-mapa.html">
+      <div class="card-thumb">🗺️</div>
+      <div class="card-body">
+        <div class="card-num">Pantalla 04</div>
+        <div class="card-title">Mapa del Yacimiento</div>
+        <span class="badge badge-core">Core</span>
+      </div>
+    </a>
+
+    <a class="card" href="05-vista-ra.html">
+      <div class="card-thumb">📷</div>
+      <div class="card-body">
+        <div class="card-num">Pantalla 05</div>
+        <div class="card-title">Vista de Realidad Aumentada</div>
+        <span class="badge badge-core">Core</span>
+      </div>
+    </a>
+
+    <a class="card" href="06-detalle-poi.html">
+      <div class="card-thumb">📌</div>
+      <div class="card-body">
+        <div class="card-num">Pantalla 06</div>
+        <div class="card-title">Detalle de Punto de Interés</div>
+        <span class="badge badge-core">Core</span>
+      </div>
+    </a>
+
+    <a class="card" href="07-recorridos.html">
+      <div class="card-thumb">🚶</div>
+      <div class="card-body">
+        <div class="card-num">Pantalla 07</div>
+        <div class="card-title">Recorridos e Itinerarios</div>
+        <span class="badge badge-nav">Navegación</span>
+      </div>
+    </a>
+
+    <a class="card" href="08-perfil.html">
+      <div class="card-thumb">👤</div>
+      <div class="card-body">
+        <div class="card-num">Pantalla 08</div>
+        <div class="card-title">Perfil de Usuario</div>
+        <span class="badge badge-user">Usuario</span>
+      </div>
+    </a>
+
+    <a class="card" href="09-ajustes.html">
+      <div class="card-thumb">⚙️</div>
+      <div class="card-body">
+        <div class="card-num">Pantalla 09</div>
+        <div class="card-title">Ajustes</div>
+        <span class="badge badge-user">Usuario</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="legend">
+    <h2>Categorías de pantallas</h2>
+    <div class="legend-items">
+      <span class="badge badge-auth">Acceso — Autenticación y acceso</span>
+      <span class="badge badge-nav">Navegación — Pantallas de navegación principal</span>
+      <span class="badge badge-core">Core — Funcionalidades principales</span>
+      <span class="badge badge-user">Usuario — Gestión de cuenta y ajustes</span>
+    </div>
+  </div>
+
+  <footer>
+    Mengíbar AR · Proyecto VTIliturgi · Universidad de Jaén<br>
+    Fase 2: Arquitectura y Diseño UX/UI · WCAG 2.1 AA
+  </footer>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>09 · Ajustes — Mengíbar AR</title>
+  <link rel="stylesheet" href="wireframe-shared.css">
+  <style>
+    .settings-section-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--color-gray);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0 4px;
+      margin-top: 4px;
+    }
+    /* Selector de idioma */
+    .lang-selector {
+      display: flex;
+      background: var(--color-light);
+      border-radius: 10px;
+      padding: 3px;
+      gap: 2px;
+    }
+    .lang-option {
+      flex: 1;
+      padding: 9px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      color: var(--color-gray);
+    }
+    .lang-option.active {
+      background: #fff;
+      color: var(--color-dark);
+      box-shadow: var(--shadow-sm);
+    }
+    /* Slider de fuente */
+    .font-size-control {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 4px 0;
+    }
+    .font-size-track {
+      flex: 1;
+      height: 4px;
+      background: var(--color-divider);
+      border-radius: 2px;
+      position: relative;
+    }
+    .font-size-fill {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 60%;
+      background: var(--color-ocre);
+      border-radius: 2px;
+    }
+    .font-size-thumb {
+      position: absolute;
+      left: calc(60% - 10px);
+      top: -8px;
+      width: 20px; height: 20px;
+      background: var(--color-ocre);
+      border-radius: 50%;
+      border: 3px solid #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    .font-size-label { font-size: 12px; color: var(--color-gray); }
+    /* Descarga offline */
+    .download-item {
+      background: #fff;
+      border-radius: var(--radius-md);
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+    .download-icon { font-size: 24px; }
+    .download-info { flex: 1; }
+    .download-name { font-size: 14px; font-weight: 700; color: var(--color-dark); }
+    .download-size { font-size: 12px; color: var(--color-gray); margin-top: 2px; }
+    .download-progress { margin-top: 6px; }
+    .download-btn {
+      background: var(--color-ocre);
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      padding: 7px 13px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .download-btn.done {
+      background: var(--color-green);
+    }
+    /* Privacidad */
+    .privacy-info {
+      background: #F5F5F5;
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      font-size: 12px;
+      color: var(--color-gray);
+      line-height: 1.6;
+    }
+    .privacy-info a { color: var(--color-blue); text-decoration: underline; }
+    /* Info app */
+    .app-info {
+      text-align: center;
+      padding: 8px;
+    }
+    .app-info-logo { font-size: 36px; margin-bottom: 6px; }
+    .app-info-name { font-size: 16px; font-weight: 800; color: var(--color-dark); }
+    .app-info-version { font-size: 12px; color: var(--color-gray); }
+    .app-info-credits { font-size: 11px; color: var(--color-gray); margin-top: 6px; }
+  </style>
+</head>
+<body>
+  <div class="page-header">
+    <a href="index.html">← Índice</a>
+    <span class="page-title">09 — Ajustes</span>
+    <span class="screen-num">9 / 9</span>
+  </div>
+
+  <div class="device">
+    <div class="device-notch"></div>
+    <div class="screen">
+      <div class="status-bar"><span>9:41</span><span>📶 🔋</span></div>
+      <div class="app-bar">
+        <div class="app-bar-icon">←</div>
+        <span class="app-bar-title">⚙️ Ajustes</span>
+      </div>
+
+      <div class="content" style="gap:10px;">
+
+        <!-- Idioma (RF-30) -->
+        <div class="settings-section-title">Idioma — RF-30</div>
+        <div class="lang-selector">
+          <div class="lang-option active">🇪🇸 Español</div>
+          <div class="lang-option">🇬🇧 English</div>
+        </div>
+
+        <!-- Accesibilidad (ACC-05) -->
+        <div class="settings-section-title">Accesibilidad — ACC-05</div>
+        <div class="settings-group">
+          <div class="settings-item">
+            <div class="settings-icon">🌗</div>
+            <div class="settings-text">
+              <div class="settings-label">Modo alto contraste</div>
+              <div class="settings-sublabel">Mayor legibilidad del texto</div>
+            </div>
+            <div class="settings-toggle"></div>
+          </div>
+          <div class="settings-item">
+            <div class="settings-icon">🔤</div>
+            <div class="settings-text">
+              <div class="settings-label">Tamaño de fuente</div>
+              <div class="settings-sublabel">Actual: Mediano</div>
+            </div>
+          </div>
+          <div style="padding: 0 16px 12px;">
+            <div class="font-size-control">
+              <div class="font-size-label" style="font-size:10px;">A</div>
+              <div class="font-size-track">
+                <div class="font-size-fill"></div>
+                <div class="font-size-thumb"></div>
+              </div>
+              <div class="font-size-label" style="font-size:18px;">A</div>
+            </div>
+          </div>
+          <div class="settings-item">
+            <div class="settings-icon">🔊</div>
+            <div class="settings-text">
+              <div class="settings-label">Audiodescripción RA</div>
+              <div class="settings-sublabel">Descripción de modelos 3D — ACC-03</div>
+            </div>
+            <div class="settings-toggle" style="background: var(--color-divider);"></div>
+          </div>
+          <div class="settings-item">
+            <div class="settings-icon">📝</div>
+            <div class="settings-text">
+              <div class="settings-label">Subtítulos siempre visibles</div>
+              <div class="settings-sublabel">Transcripción de audios — ACC-02</div>
+            </div>
+            <div class="settings-toggle"></div>
+          </div>
+        </div>
+
+        <!-- Contenidos offline (RF-04, RF-31) -->
+        <div class="settings-section-title">Contenidos sin conexión — RF-04</div>
+
+        <div class="download-item">
+          <div class="download-icon">🚶</div>
+          <div class="download-info">
+            <div class="download-name">Ruta Romana Esencial</div>
+            <div class="download-size">📦 48 MB · Audio + Modelos 3D</div>
+            <div class="download-progress">
+              <div class="progress-bar"><div class="progress-fill" style="width:100%;"></div></div>
+            </div>
+          </div>
+          <button class="download-btn done">✅ Descargado</button>
+        </div>
+
+        <div class="download-item">
+          <div class="download-icon">🏛️</div>
+          <div class="download-info">
+            <div class="download-name">Contenidos completos</div>
+            <div class="download-size">📦 ~320 MB · Todos los POI</div>
+            <div class="download-progress">
+              <div class="progress-bar"><div class="progress-fill" style="width:0%;"></div></div>
+            </div>
+          </div>
+          <button class="download-btn">⬇️ Descargar</button>
+        </div>
+
+        <!-- Privacidad / GPS (RF-19, CA-09) -->
+        <div class="settings-section-title">Privacidad y datos — RF-19</div>
+        <div class="settings-group">
+          <div class="settings-item">
+            <div class="settings-icon">📍</div>
+            <div class="settings-text">
+              <div class="settings-label">Consentimiento GPS</div>
+              <div class="settings-sublabel">Posicionamiento anónimo conforme a RGPD</div>
+            </div>
+            <div class="settings-toggle"></div>
+          </div>
+          <div class="settings-item">
+            <div class="settings-icon">📜</div>
+            <div class="settings-text">
+              <div class="settings-label">Política de privacidad</div>
+            </div>
+            <div class="settings-arrow">›</div>
+          </div>
+          <div class="settings-item">
+            <div class="settings-icon">🗑️</div>
+            <div class="settings-text">
+              <div class="settings-label" style="color: #C62828;">Eliminar mis datos</div>
+            </div>
+            <div class="settings-arrow">›</div>
+          </div>
+        </div>
+
+        <!-- Info app -->
+        <div class="app-info">
+          <div class="app-info-logo">🏛️</div>
+          <div class="app-info-name">Mengíbar AR</div>
+          <div class="app-info-version">v1.0.0</div>
+          <div class="app-info-credits">Proyecto VTIliturgi · Universidad de Jaén</div>
+        </div>
+
+        <div class="wf-note">RF-30: idioma ES/EN · ACC-05: contraste/fuente · RF-04: offline · RF-19+CA-09: privacidad RGPD</div>
+      </div>
+
+      <div class="tab-bar">
+        <div class="tab-item"><div class="tab-icon">🏠</div>Inicio</div>
+        <div class="tab-item"><div class="tab-icon">🗺️</div>Mapa</div>
+        <div class="tab-item"><div class="tab-icon">📷</div>RA</div>
+        <div class="tab-item"><div class="tab-icon">🚶</div>Rutas</div>
+        <div class="tab-item"><div class="tab-icon">👤</div>Perfil</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="description">
+    <h3>Pantalla 09 — Ajustes</h3>
+    <ul>
+      <li><strong>RF-30:</strong> Selector de idioma (Español / Inglés).</li>
+      <li><strong>ACC-05:</strong> Toggle de alto contraste y slider de tamaño de fuente.</li>
+      <li><strong>ACC-02:</strong> Toggle de subtítulos siempre visibles.</li>
+      <li><strong>ACC-03:</strong> Toggle de audiodescripción para modelos 3D.</li>
+      <li><strong>RF-04 / RF-31:</strong> Descarga de contenidos para uso sin conexión, con indicador de espacio.</li>
+      <li><strong>RF-19 / CA-09:</strong> Gestión del consentimiento GPS, política de privacidad y eliminación de datos (cumplimiento RGPD/LOPDGDD).</li>
+    </ul>
+  </div>
+</body>
+</html>

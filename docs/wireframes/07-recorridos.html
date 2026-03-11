@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>07 · Recorridos — Mengíbar AR</title>
+  <link rel="stylesheet" href="wireframe-shared.css">
+  <style>
+    .route-card {
+      background: #fff;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .route-card-header {
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .route-icon {
+      width: 52px; height: 52px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      flex-shrink: 0;
+    }
+    .route-icon.short  { background: #E8F5E9; }
+    .route-icon.medium { background: #FFF8E1; }
+    .route-icon.long   { background: #FCE4EC; }
+    .route-info { flex: 1; }
+    .route-name { font-size: 15px; font-weight: 800; color: var(--color-dark); }
+    .route-meta {
+      display: flex;
+      gap: 10px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+    .route-meta-item {
+      font-size: 12px;
+      color: var(--color-gray);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .route-arrow {
+      color: var(--color-gray);
+      font-size: 20px;
+    }
+    .route-card-footer {
+      border-top: 1px solid var(--color-divider);
+      padding: 10px 14px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .route-tags { display: flex; gap: 6px; flex: 1; overflow: hidden; }
+    .route-start-btn {
+      background: var(--color-ocre);
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    /* Ruta activa -->
+    /* */
+    .active-route-card {
+      background: linear-gradient(135deg, #8B6914, #C4973B);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      color: #fff;
+    }
+    .active-route-title { font-size: 13px; font-weight: 600; opacity: 0.85; }
+    .active-route-name  { font-size: 17px; font-weight: 800; margin-top: 2px; }
+    .active-route-progress {
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .active-progress-bar {
+      flex: 1;
+      background: rgba(255,255,255,0.3);
+      border-radius: 4px;
+      height: 6px;
+      overflow: hidden;
+    }
+    .active-progress-fill {
+      height: 100%;
+      background: #fff;
+      border-radius: 4px;
+      width: 40%;
+    }
+    .active-progress-text {
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .active-route-btns {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .active-btn {
+      flex: 1;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.4);
+      color: #fff;
+      border-radius: 20px;
+      padding: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+    }
+    /* Hitos */
+    .hito-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .hito-item {
+      background: #fff;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--color-divider);
+    }
+    .hito-item:last-child { border-bottom: none; border-radius: 0 0 var(--radius-md) var(--radius-md); }
+    .hito-item:first-child { border-radius: var(--radius-md) var(--radius-md) 0 0; }
+    .hito-dot {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      border: 2px solid var(--color-divider);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+    .hito-dot.done   { background: var(--color-ocre); border-color: var(--color-ocre); color: #fff; }
+    .hito-dot.active { background: #fff; border-color: var(--color-ocre); color: var(--color-ocre); font-weight: 700; }
+    .hito-dot.optional { border-style: dashed; }
+    .hito-name { flex: 1; font-size: 14px; color: var(--color-dark); font-weight: 600; }
+    .hito-dist { font-size: 12px; color: var(--color-gray); }
+    /* Personalizado */
+    .custom-cta {
+      background: var(--color-light);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+    }
+    .custom-icon { font-size: 32px; }
+    .custom-text { flex: 1; }
+    .custom-title { font-size: 15px; font-weight: 700; color: var(--color-dark); }
+    .custom-desc  { font-size: 12px; color: var(--color-gray); margin-top: 3px; }
+  </style>
+</head>
+<body>
+  <div class="page-header">
+    <a href="index.html">← Índice</a>
+    <span class="page-title">07 — Recorridos e Itinerarios</span>
+    <span class="screen-num">7 / 9</span>
+  </div>
+
+  <div class="device">
+    <div class="device-notch"></div>
+    <div class="screen">
+      <div class="status-bar"><span>9:41</span><span>📶 GPS 🔋</span></div>
+      <div class="app-bar">
+        <span class="app-bar-title">🚶 Recorridos</span>
+        <div class="app-bar-icon">⋮</div>
+      </div>
+
+      <div class="content" style="gap:12px;">
+
+        <!-- Recorrido activo (RF-25) -->
+        <div class="active-route-card">
+          <div class="active-route-title">▶ Recorrido en curso</div>
+          <div class="active-route-name">Ruta Romana Esencial</div>
+          <div class="active-route-progress">
+            <div class="active-progress-bar">
+              <div class="active-progress-fill"></div>
+            </div>
+            <div class="active-progress-text">2 / 5 hitos</div>
+          </div>
+          <div class="active-route-btns">
+            <div class="active-btn">⏸ Pausar</div>
+            <div class="active-btn">⏩ Continuar</div>
+          </div>
+        </div>
+
+        <!-- Lista de hitos del recorrido activo -->
+        <div style="font-size:14px; font-weight:700; color:var(--color-dark); margin-top:4px;">Hitos del recorrido</div>
+        <div class="hito-list" style="border-radius:var(--radius-md); overflow:hidden; box-shadow:var(--shadow-sm);">
+          <div class="hito-item">
+            <div class="hito-dot done">✓</div>
+            <div class="hito-name">Acceso principal · Placa informativa</div>
+            <div class="hito-dist">✅</div>
+          </div>
+          <div class="hito-item">
+            <div class="hito-dot done">✓</div>
+            <div class="hito-name">Necrópolis Ibérica</div>
+            <div class="hito-dist">✅</div>
+          </div>
+          <div class="hito-item" style="background:#FFF8EE;">
+            <div class="hito-dot active">▶</div>
+            <div class="hito-name" style="color:var(--color-ocre-dark);">Foro Romano <span class="badge badge-ocre" style="font-size:10px;">Obligatorio</span></div>
+            <div class="hito-dist">18 m</div>
+          </div>
+          <div class="hito-item">
+            <div class="hito-dot optional"></div>
+            <div class="hito-name">Termas · <span style="color:var(--color-gray); font-size:12px;">Opcional</span></div>
+            <div class="hito-dist">340 m</div>
+          </div>
+          <div class="hito-item">
+            <div class="hito-dot"></div>
+            <div class="hito-name">Muralla Medieval <span class="badge badge-ocre" style="font-size:10px;">Obligatorio</span></div>
+            <div class="hito-dist">510 m</div>
+          </div>
+        </div>
+
+        <!-- Recorridos predefinidos (RF-20) -->
+        <div style="font-size:14px; font-weight:700; color:var(--color-dark);">Otros recorridos</div>
+
+        <div class="route-card">
+          <div class="route-card-header">
+            <div class="route-icon short">🟢</div>
+            <div class="route-info">
+              <div class="route-name">Recorrido Corto</div>
+              <div class="route-meta">
+                <span class="route-meta-item">⏱ ≈30 min</span>
+                <span class="route-meta-item">📍 4 POI</span>
+                <span class="route-meta-item">🚶 1.2 km</span>
+              </div>
+            </div>
+            <div class="route-arrow">›</div>
+          </div>
+          <div class="route-card-footer">
+            <div class="route-tags">
+              <span class="badge badge-green">General</span>
+              <span class="badge badge-gray">Familias</span>
+            </div>
+            <button class="route-start-btn">Iniciar</button>
+          </div>
+        </div>
+
+        <div class="route-card">
+          <div class="route-card-header">
+            <div class="route-icon long">🔴</div>
+            <div class="route-info">
+              <div class="route-name">Recorrido Completo</div>
+              <div class="route-meta">
+                <span class="route-meta-item">⏱ ≈90 min</span>
+                <span class="route-meta-item">📍 12 POI</span>
+                <span class="route-meta-item">🚶 3.8 km</span>
+              </div>
+            </div>
+            <div class="route-arrow">›</div>
+          </div>
+          <div class="route-card-footer">
+            <div class="route-tags">
+              <span class="badge badge-blue">Académico</span>
+              <span class="badge badge-ocre">Avanzado</span>
+            </div>
+            <button class="route-start-btn">Iniciar</button>
+          </div>
+        </div>
+
+        <!-- Recorrido personalizado (RF-22) -->
+        <div class="custom-cta">
+          <div class="custom-icon">✏️</div>
+          <div class="custom-text">
+            <div class="custom-title">Crear recorrido personalizado</div>
+            <div class="custom-desc">Selecciona los POI de tu interés y calcularemos la ruta</div>
+          </div>
+          <div style="font-size:20px; color:var(--color-gray);">›</div>
+        </div>
+
+        <div class="wf-note">RF-20: 3 recorridos predefinidos · RF-22: recorrido personalizado · RF-23: hitos obligatorios/opcionales · RF-25: pausa/reanudación</div>
+      </div>
+
+      <div class="tab-bar">
+        <div class="tab-item"><div class="tab-icon">🏠</div>Inicio</div>
+        <div class="tab-item"><div class="tab-icon">🗺️</div>Mapa</div>
+        <div class="tab-item"><div class="tab-icon">📷</div>RA</div>
+        <div class="tab-item active"><div class="tab-icon">🚶</div>Rutas</div>
+        <div class="tab-item"><div class="tab-icon">👤</div>Perfil</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="description">
+    <h3>Pantalla 07 — Recorridos e Itinerarios</h3>
+    <ul>
+      <li><strong>RF-20:</strong> Al menos 3 recorridos predefinidos (corto ≈30 min, medio ≈60 min, largo ≈90 min).</li>
+      <li><strong>RF-21:</strong> Cada recorrido vinculado a una línea de tiempo histórica (RF-21).</li>
+      <li><strong>RF-22:</strong> Opción de crear recorrido personalizado seleccionando POI.</li>
+      <li><strong>RF-23:</strong> Hitos obligatorios y opcionales claramente diferenciados (icono sólido vs. punteado).</li>
+      <li><strong>RF-25:</strong> Recorrido activo con opción de pausa/reanudación.</li>
+      <li><strong>RF-24:</strong> Progreso visible (2/5 hitos, tiempo invertido).</li>
+      <li><strong>RF-26:</strong> Al completar el recorrido se generará un resumen exportable.</li>
+    </ul>
+  </div>
+</body>
+</html>

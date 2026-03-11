@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>06 · Detalle POI — Mengíbar AR</title>
+  <link rel="stylesheet" href="wireframe-shared.css">
+  <style>
+    .poi-hero {
+      height: 160px;
+      background: linear-gradient(135deg, #8B6914, #C4973B);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .poi-hero-icon { font-size: 72px; opacity: 0.7; }
+    .poi-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(0deg, rgba(0,0,0,0.5) 0%, transparent 60%);
+    }
+    .poi-hero-title {
+      position: absolute;
+      bottom: 12px; left: 14px; right: 14px;
+      color: #fff;
+      font-size: 20px;
+      font-weight: 800;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+    }
+    .poi-hero-badge {
+      position: absolute;
+      top: 12px; left: 14px;
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+    .poi-hero-fav {
+      position: absolute;
+      top: 10px; right: 14px;
+      background: rgba(0,0,0,0.4);
+      color: #fff;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      cursor: pointer;
+    }
+    /* Tabs internas del POI */
+    .inner-tabs {
+      display: flex;
+      border-bottom: 2px solid var(--color-divider);
+      background: #fff;
+      flex-shrink: 0;
+    }
+    .inner-tab {
+      flex: 1;
+      padding: 10px 4px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--color-gray);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+    }
+    .inner-tab.active {
+      color: var(--color-ocre-dark);
+      border-bottom-color: var(--color-ocre);
+    }
+    /* Audio player (RF-28) */
+    .audio-player {
+      background: #fff;
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+    .audio-play-btn {
+      width: 44px; height: 44px;
+      background: var(--color-ocre);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: #fff;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .audio-info { flex: 1; }
+    .audio-title { font-size: 13px; font-weight: 700; }
+    .audio-bar {
+      height: 4px;
+      background: var(--color-divider);
+      border-radius: 2px;
+      margin-top: 6px;
+      position: relative;
+    }
+    .audio-fill {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 35%;
+      background: var(--color-ocre);
+      border-radius: 2px;
+    }
+    .audio-time { font-size: 11px; color: var(--color-gray); margin-top: 4px; }
+    /* Transcripción (ACC-02) */
+    .transcript-box {
+      background: var(--color-blue-bg);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      font-size: 12px;
+      color: #1A3A6E;
+      line-height: 1.6;
+    }
+    .transcript-title {
+      font-weight: 700;
+      font-size: 11px;
+      margin-bottom: 5px;
+      color: var(--color-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    /* Galería */
+    .gallery {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+    }
+    .gallery::-webkit-scrollbar { display: none; }
+    .gallery-item {
+      width: 80px;
+      height: 80px;
+      background: var(--color-light);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      flex-shrink: 0;
+    }
+    /* CTA inferior */
+    .poi-cta {
+      background: #fff;
+      border-top: 1px solid var(--color-divider);
+      padding: 12px 14px;
+      display: flex;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .cta-btn-ra {
+      flex: 2;
+      background: var(--color-ocre);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-lg);
+      padding: 13px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+    }
+    .cta-btn-route {
+      flex: 1;
+      background: transparent;
+      color: var(--color-ocre-dark);
+      border: 2px solid var(--color-ocre);
+      border-radius: var(--radius-lg);
+      padding: 11px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-header">
+    <a href="index.html">← Índice</a>
+    <span class="page-title">06 — Detalle de Punto de Interés (POI)</span>
+    <span class="screen-num">6 / 9</span>
+  </div>
+
+  <div class="device">
+    <div class="device-notch"></div>
+    <div class="screen">
+      <div class="status-bar"><span>9:41</span><span>📶 GPS 🔋</span></div>
+
+      <!-- Hero del POI -->
+      <div class="poi-hero">
+        <div class="poi-hero-icon">🏛️</div>
+        <div class="poi-hero-overlay"></div>
+        <div class="poi-hero-badge">🏺 Arquitectura · Romano</div>
+        <div class="poi-hero-title">Foro Romano de Iliturgi</div>
+        <div class="poi-hero-fav">🤍</div>
+      </div>
+
+      <!-- Tabs de contenido -->
+      <div class="inner-tabs">
+        <div class="inner-tab active">Info</div>
+        <div class="inner-tab">Galería</div>
+        <div class="inner-tab">🎵 Audio</div>
+        <div class="inner-tab">🧊 3D</div>
+        <div class="inner-tab">🎬 Vídeo</div>
+      </div>
+
+      <div class="content" style="padding:12px; gap:12px;">
+        <!-- Tags de época y tipo -->
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <span class="badge badge-ocre">s. I–III d.C.</span>
+          <span class="badge badge-green">Período Romano</span>
+          <span class="badge badge-blue">Modelo 3D</span>
+          <span class="badge badge-gray">Audio ES/EN</span>
+        </div>
+
+        <!-- Descripción breve (RF-28) -->
+        <div style="font-size:14px; color:var(--color-dark); line-height:1.6;">
+          El foro constituía el centro cívico, religioso y comercial de la ciudad romana de Iliturgi.
+          Los restos arqueológicos evidencian una rica actividad durante los siglos I al III d.C.
+        </div>
+
+        <!-- Galería -->
+        <div class="gallery">
+          <div class="gallery-item">🖼️</div>
+          <div class="gallery-item">📷</div>
+          <div class="gallery-item">🗿</div>
+          <div class="gallery-item" style="background:#E8E0D0; font-size:13px; color:var(--color-gray);">+4</div>
+        </div>
+
+        <!-- Reproductor de audio (RF-28, ACC-02) -->
+        <div class="audio-player">
+          <div class="audio-play-btn">▶️</div>
+          <div class="audio-info">
+            <div class="audio-title">Audio narrativo — Español</div>
+            <div class="audio-bar"><div class="audio-fill"></div></div>
+            <div class="audio-time">1:23 / 3:45</div>
+          </div>
+          <div style="font-size:22px; cursor:pointer;">🔊</div>
+        </div>
+
+        <!-- Transcripción (ACC-02) -->
+        <div class="transcript-box">
+          <div class="transcript-title">📝 Transcripción — ACC-02</div>
+          «El foro de Iliturgi fue construido durante el reinado del emperador Augusto…
+          su planta rectangular de 80×40 m albergaba el templo principal…»
+        </div>
+
+        <div class="wf-note">RF-28: ficha completa POI · ACC-02: transcripción audio · ACC-03: audiodescripción 3D · RF-29: categorías</div>
+      </div>
+
+      <!-- CTA de acciones -->
+      <div class="poi-cta">
+        <button class="cta-btn-ra">📷 Ver en RA</button>
+        <button class="cta-btn-route">🗺️ Ruta</button>
+      </div>
+
+      <div class="tab-bar">
+        <div class="tab-item"><div class="tab-icon">🏠</div>Inicio</div>
+        <div class="tab-item active"><div class="tab-icon">🗺️</div>Mapa</div>
+        <div class="tab-item"><div class="tab-icon">📷</div>RA</div>
+        <div class="tab-item"><div class="tab-icon">🚶</div>Rutas</div>
+        <div class="tab-item"><div class="tab-icon">👤</div>Perfil</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="description">
+    <h3>Pantalla 06 — Detalle de Punto de Interés (POI)</h3>
+    <ul>
+      <li><strong>RF-28:</strong> Ficha completa: título, descripción, galería, audio, modelo 3D, vídeo.</li>
+      <li><strong>ACC-02:</strong> Transcripción textual del audio narrativo visible en pantalla.</li>
+      <li><strong>ACC-03:</strong> Tab de modelo 3D incluye botón de audiodescripción activable.</li>
+      <li><strong>RF-30:</strong> Audio disponible en español e inglés.</li>
+      <li>Botón de favorito (corazón) en la esquina del hero (RF-02: solo para usuarios registrados).</li>
+      <li>CTA principal "Ver en RA" lanza la Vista AR directamente sobre este POI.</li>
+      <li>CTA secundario "Ruta" calcula la ruta a pie desde la posición actual (RF-16).</li>
+    </ul>
+  </div>
+</body>
+</html>

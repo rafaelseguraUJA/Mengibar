@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>03 · Home — Mengíbar AR</title>
+  <link rel="stylesheet" href="wireframe-shared.css">
+  <style>
+    .search-bar {
+      background: #fff;
+      border-radius: 28px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      box-shadow: var(--shadow-sm);
+    }
+    .search-icon { font-size: 18px; color: var(--color-gray); }
+    .search-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 15px;
+      color: var(--color-gray);
+      background: transparent;
+    }
+    .hero-banner {
+      background: linear-gradient(135deg, #8B6914, #C4973B);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-banner::after {
+      content: '🏛️';
+      position: absolute;
+      right: 12px;
+      bottom: -8px;
+      font-size: 64px;
+      opacity: 0.25;
+    }
+    .hero-title { font-size: 20px; font-weight: 800; }
+    .hero-subtitle { font-size: 13px; margin-top: 4px; opacity: 0.85; }
+    .hero-btn {
+      margin-top: 14px;
+      background: rgba(255,255,255,0.9);
+      color: #8B6914;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .section-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--color-dark);
+    }
+    .section-link {
+      font-size: 13px;
+      color: var(--color-blue);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .quick-access {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .quick-item {
+      background: #fff;
+      border-radius: var(--radius-md);
+      padding: 12px 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      text-align: center;
+    }
+    .quick-icon { font-size: 26px; }
+    .quick-label { font-size: 11px; font-weight: 600; color: var(--color-dark); }
+    .poi-card {
+      background: #fff;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      gap: 0;
+    }
+    .poi-img {
+      width: 88px;
+      height: 88px;
+      background: var(--color-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      flex-shrink: 0;
+    }
+    .poi-info {
+      padding: 10px 12px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+    }
+    .poi-name { font-size: 14px; font-weight: 700; color: var(--color-dark); }
+    .poi-cat { font-size: 11px; color: var(--color-gray); }
+    .poi-dist { font-size: 12px; color: var(--color-ocre-dark); font-weight: 600; }
+    .notify-banner {
+      background: var(--color-blue-bg);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--color-blue);
+    }
+    .notify-icon { font-size: 20px; }
+  </style>
+</head>
+<body>
+  <div class="page-header">
+    <a href="index.html">← Índice</a>
+    <span class="page-title">03 — Pantalla Principal (Home)</span>
+    <span class="screen-num">3 / 9</span>
+  </div>
+
+  <div class="device">
+    <div class="device-notch"></div>
+    <div class="screen">
+      <div class="status-bar"><span>9:41</span><span>📶 🔋</span></div>
+      <div class="app-bar">
+        <span style="font-size:22px;">🏛️</span>
+        <span class="app-bar-title">Mengíbar AR</span>
+        <div class="app-bar-icon">🔔</div>
+        <div class="app-bar-icon">⚙️</div>
+      </div>
+
+      <div class="content">
+        <!-- Barra de búsqueda -->
+        <div class="search-bar">
+          <span class="search-icon">🔍</span>
+          <span class="search-input">Buscar POI, recorridos…</span>
+        </div>
+
+        <!-- Notificación de proximidad (RF-15) -->
+        <div class="notify-banner">
+          <div class="notify-icon">📍</div>
+          <div>¡Estás a <strong>18 m</strong> del <strong>Foro Romano</strong>! <u>Ver ahora</u></div>
+        </div>
+
+        <!-- Banner hero -->
+        <div class="hero-banner">
+          <div class="hero-title">Bienvenido a Iliturgi</div>
+          <div class="hero-subtitle">Explora 2.000 años de historia con Realidad Aumentada</div>
+          <button class="hero-btn">🗺️ Comenzar exploración</button>
+        </div>
+
+        <!-- Accesos rápidos -->
+        <div class="section-header">
+          <div class="section-title">Accesos rápidos</div>
+        </div>
+        <div class="quick-access">
+          <div class="quick-item">
+            <div class="quick-icon">🗺️</div>
+            <div class="quick-label">Mapa</div>
+          </div>
+          <div class="quick-item">
+            <div class="quick-icon">📷</div>
+            <div class="quick-label">Vista RA</div>
+          </div>
+          <div class="quick-item">
+            <div class="quick-icon">🚶</div>
+            <div class="quick-label">Recorridos</div>
+          </div>
+          <div class="quick-item">
+            <div class="quick-icon">🌟</div>
+            <div class="quick-label">Favoritos</div>
+          </div>
+        </div>
+
+        <!-- POI Destacados -->
+        <div class="section-header">
+          <div class="section-title">POI Cercanos</div>
+          <div class="section-link">Ver todos</div>
+        </div>
+
+        <div class="poi-card">
+          <div class="poi-img">🏛️</div>
+          <div class="poi-info">
+            <div class="poi-name">Foro Romano</div>
+            <div class="poi-cat">🏺 Arquitectura · Romano</div>
+            <div class="poi-dist">📍 18 m · 3D disponible</div>
+          </div>
+        </div>
+
+        <div class="poi-card">
+          <div class="poi-img">🏺</div>
+          <div class="poi-info">
+            <div class="poi-name">Necrópolis Ibérica</div>
+            <div class="poi-cat">⚱️ Hallazgos · Ibérico</div>
+            <div class="poi-dist">📍 94 m · Audio disponible</div>
+          </div>
+        </div>
+
+        <div class="poi-card">
+          <div class="poi-img">🗿</div>
+          <div class="poi-info">
+            <div class="poi-name">Muralla Medieval</div>
+            <div class="poi-cat">🧱 Arquitectura · Medieval</div>
+            <div class="poi-dist">📍 210 m</div>
+          </div>
+        </div>
+
+        <div class="wf-note">RF-15: resaltado de POI cercanos · RF-28: ficha de POI · RF-32: buscador</div>
+      </div>
+
+      <div class="tab-bar">
+        <div class="tab-item active"><div class="tab-icon">🏠</div>Inicio</div>
+        <div class="tab-item"><div class="tab-icon">🗺️</div>Mapa</div>
+        <div class="tab-item"><div class="tab-icon">📷</div>RA</div>
+        <div class="tab-item"><div class="tab-icon">🚶</div>Rutas</div>
+        <div class="tab-item"><div class="tab-icon">👤</div>Perfil</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="description">
+    <h3>Pantalla 03 — Pantalla Principal (Home)</h3>
+    <ul>
+      <li><strong>RF-15:</strong> Notificación in-app de POI a menos de 20 m del usuario.</li>
+      <li><strong>RF-32:</strong> Barra de búsqueda de POI por nombre y categoría.</li>
+      <li><strong>RF-28:</strong> Tarjetas de POI con categoría, distancia y tipo de contenido disponible.</li>
+      <li>Accesos rápidos a Mapa, Vista RA, Recorridos y Favoritos.</li>
+      <li>Banner contextual de bienvenida con CTA de exploración.</li>
+      <li><strong>ACC-04:</strong> Todos los elementos tienen etiquetas accesibles para VoiceOver/TalkBack.</li>
+    </ul>
+  </div>
+</body>
+</html>
